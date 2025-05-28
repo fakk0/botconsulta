@@ -1,0 +1,20 @@
+export const COMMUNICATION_CONSTANTS = {
+  HTTP_PORT: 3000,
+  WEBSOCKET_PORT: 3000,
+  HEARTBEAT_INTERVAL: 30000,
+  COMMAND_TIMEOUT: 30000,
+  MAX_RETRIES: 3
+};
+
+export const SITE_CONSTANTS = {
+  TARGET_URL: 'https://elpump.xyz/placa_oficial_plus/',
+  LOGIN_URL: 'https://elpump.xyz/login',
+  SEARCH_DELAY: 2000,
+  MAX_RETRIES: 3
+};
+
+export const DATABASE_CONSTANTS = {
+  MAX_CONNECTIONS: 10,
+  TIMEOUT: 30000,
+  RETRY_ATTEMPTS: 3
+};

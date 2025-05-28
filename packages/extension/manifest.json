@@ -1,0 +1,34 @@
+{
+  "manifest_version": 3,
+  "name": "Bot Consulta Placas - Extrator",
+  "version": "1.0.0",
+  "description": "Extrator de dados para sistema de consulta de placas",
+  
+  "permissions": [
+    "activeTab",
+    "scripting",
+    "storage"
+  ],
+  
+  "host_permissions": [
+    "http://localhost:3000/*",
+    "https://elpump.xyz/*"
+  ],
+  
+  "background": {
+    "service_worker": "background.js"
+  },
+  
+  "content_scripts": [
+    {
+      "matches": ["https://elpump.xyz/*"],
+      "js": ["content.js"],
+      "run_at": "document_end"
+    }
+  ],
+  
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "Bot Consulta Placas"
+  }
+}

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Bot Consulta Placas - Dashboard</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .section { margin: 20px 0; padding: 15px; border: 1px solid #ddd; }
+        .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+        .stat-card { padding: 10px; background: #f5f5f5; text-align: center; }
+        button { padding: 10px 20px; margin: 5px; cursor: pointer; }
+        .form-group { margin: 10px 0; }
+        input, select { padding: 8px; margin: 5px; }
+    </style>
+</head>
+<body>
+    <h1>🚗 Bot Consulta Placas - Dashboard</h1>
+    
+    <div class="section">
+        <h2>📊 Estatísticas em Tempo Real</h2>
+        <div class="stats" id="stats"></div>
+    </div>
+    
+    <div class="section">
+        <h2>🔍 Nova Consulta em Cascata</h2>
+        <div class="form-group">
+            <input type="text" id="modelo" placeholder="Modelo (ex: FOX)">
+            <input type="text" id="cor" placeholder="Cor (ex: PRETA)">
+            <input type="text" id="anoInicio" placeholder="Ano Início (ex: 2015)">
+            <input type="text" id="anoFim" placeholder="Ano Fim (opcional)">
+            <button onclick="iniciarConsulta()">🚀 Iniciar Consulta</button>
+        </div>
+    </div>
+    
+    <script>
+        async function atualizarStats() {
+            const response = await fetch('/api/cascata/stats');
+            const stats = await response.json();
+            
+            document.getElementById('stats').innerHTML = `
+                <div class="stat-card">
+                    <h3>Carros</h3>
+                    <p>Pendentes: ${stats.filas.carros.pendentes}</p>
+                    <p>Concluídas: ${stats.filas.carros.concluidas}</p>
+                </div>
+                <div class="stat-card">
+                    <h3>Placas</h3>
+                    <p>Pendentes: ${stats.filas.placas.pendentes}</p>
+                    <p>Concluídas: ${stats.filas.placas.concluidas}</p>
+                </div>
+                <div class="stat-card">
+                    <h3>CPFs</h3>
+                    <p>Pendentes: ${stats.filas.cpfs.pendentes}</p>
+                    <p>Concluídas: ${stats.filas.cpfs.concluidas}</p>
+                </div>
+                <div class="stat-card">
+                    <h3>Cache</h3>
+                    <p>Carros: ${stats.cache.carrosColetados}</p>
+                    <p>Placas: ${stats.cache.placasColetadas}</p>
+                </div>
+            `;
+        }
+        
+        async function iniciarConsulta() {
+            const parametros = {
+                modelo: document.getElementById('modelo').value,
+                cor: document.getElementById('cor').value,
+                anoInicio: document.getElementById('anoInicio').value,
+                anoFim: document.getElementById('anoFim').value
+            };
+            
+            const response = await fetch('/api/consulta-cascata', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(parametros)
+            });
+            
+            const result = await response.json();
+            alert(result.success ? 'Consulta iniciada!' : 'Erro: ' + result.error);
+        }
+        
+        // Atualizar stats a cada 5 segundos
+        setInterval(atualizarStats, 5000);
+        atualizarStats();
+    </script>
+</body>
+</html>

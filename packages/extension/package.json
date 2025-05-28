@@ -1,0 +1,19 @@
+{
+  "name": "@bot-consulta/extension",
+  "version": "1.0.0",
+  "description": "Extensão Chrome para extração de dados",
+  "scripts": {
+    "build": "tsc && npm run copy-assets",
+    "dev": "tsc --watch",
+    "copy-assets": "node copy-assets.js",
+    "clean": "rimraf dist"
+  },
+  "dependencies": {
+    "@bot-consulta/shared": "^1.0.0"
+  },
+  "devDependencies": {
+    "@types/chrome": "^0.0.246",
+    "typescript": "^5.0.0",
+    "rimraf": "^5.0.0"
+  }
+}

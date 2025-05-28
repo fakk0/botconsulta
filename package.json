@@ -1,0 +1,43 @@
+{
+  "name": "bot-consulta-placas-monorepo",
+  "version": "1.0.0",
+  "description": "Sistema híbrido: Bot externo + Extensão Chrome para consulta de placas",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "install:all": "npm install && npm run install:packages",
+    "install:packages": "npm install --workspace=packages/shared && npm install --workspace=packages/extension && npm install --workspace=packages/bot",
+    "build": "npm run build:shared && npm run build:extension && npm run build:bot",
+    "build:shared": "npm run build --workspace=packages/shared",
+    "build:extension": "npm run build --workspace=packages/extension",
+    "build:bot": "npm run build --workspace=packages/bot",
+    "dev": "concurrently \"npm run dev:bot\" \"npm run dev:extension\"",
+    "dev:bot": "npm run dev --workspace=packages/bot",
+    "dev:extension": "npm run dev --workspace=packages/extension",
+    "start": "npm run start --workspace=packages/bot",
+    "clean": "rimraf packages/*/dist packages/*/node_modules",
+    "lint": "eslint packages/*/src/**/*.ts",
+    "test": "jest"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "@types/xlsx": "^0.0.35",
+    "@typescript-eslint/eslint-plugin": "^6.0.0",
+    "@typescript-eslint/parser": "^6.0.0",
+    "concurrently": "^8.0.0",
+    "eslint": "^8.0.0",
+    "jest": "^29.0.0",
+    "prettier": "^3.0.0",
+    "rimraf": "^5.0.0",
+    "typescript": "^5.0.0"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=9.0.0"
+  },
+  "dependencies": {
+    "xlsx": "^0.18.5"
+  }
+}
